@@ -57,3 +57,20 @@ WHERE Name LIKE 'J%';
 SELECT Name, Department, Salary 
 FROM EMPLOYEE
 WHERE Salary BETWEEN 50000 AND 75000;
+
+--all employees ordered by their Salary in descending order
+SELECT * FROM EMPLOYEE
+ORDER BY Salary DESC;
+
+--To list unique departments from the EMPLOYEE table:
+SELECT DISTINCT Department FROM EMPLOYEE;
+
+--To get the top 3 highest-paid employees:
+SELECT * FROM EMPLOYEE
+ORDER BY Salary DESC
+LIMIT 3;
+
+--To get the next 3 highest-paid employees after skipping the top 3:
+SELECT * FROM EMPLOYEE
+ORDER BY Salary DESC
+LIMIT 3 OFFSET 3;
