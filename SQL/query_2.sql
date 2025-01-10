@@ -62,3 +62,46 @@ FROM Departments;
 SELECT dept_no, COUNT(emp_no) AS employee_count
 FROM Employees
 GROUP BY dept_no;
+
+
+-- Find the employee number, name, and department location for employees who work in departments located in Delhi.
+SELECT emp_no , emp_name, location
+FROM Employees
+INNER JOIN  Departments
+ON Employees.dept_no = Departments.dept_no
+where location = 'Delhi';
+
+--Add a new employee to the Employees table
+INSERT INTO Employees (emp_no, emp_name, dept_no)
+VALUES ('E7', 'Rajesh Mehta', 'D3');
+
+--Add a new department to the Departments table
+INSERT INTO Departments (dept_no, d_name, location)
+VALUES ('D6', 'Operations', 'Mumbai');
+
+--Remove an employee from the Employees table based on their employee number
+DELETE FROM Employees
+WHERE emp_no = 'E4';
+
+-- Delete a department from the Departments table
+DELETE FROM Departments
+WHERE dept_no = 'D5';
+
+--Update the department of an employee in the Employees table.
+UPDATE Employees
+SET dept_no = 'D2'
+WHERE emp_no = 'E3';
+
+--Change the location of a department in the Departments table.
+UPDATE Departments
+SET location = 'Chennai'
+WHERE dept_no = 'D1';
+
+--Drop table Employees
+DROP Table Employees
+
+--Drop table Departments
+DROP Table Departments
+
+
+
