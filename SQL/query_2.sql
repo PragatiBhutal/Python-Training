@@ -105,3 +105,114 @@ DROP Table Departments
 
 
 
+
+----Promblems on the sqlbolt
+
+-- Find the domestic and international sales for each movie 
+select title, domestic_sales,international_sales
+from movies
+INNER join BoxOffice
+ON BoxOffice.Movie_id = Movies.Id;
+
+--Show the sales numbers for each movie that did better internationally rather than domestically 
+SELECT title, domestic_sales, international_sales
+FROM movies
+INNER JOIN boxoffice
+ON movies.id = boxoffice.movie_id
+WHERE international_sales > domestic_sales;
+
+--List all the movies by their ratings in descending order
+SELECT title, rating
+FROM movies
+INNER  JOIN boxoffice
+ON movies.id = boxoffice.movie_id
+ORDER BY Rating DESC;
+
+--Find the list of all buildings that have employees
+SELECT DISTINCT building FROM employees;
+
+--Find the list of all buildings and their capacity
+select * from buildings
+
+--List all buildings and the distinct employee roles in each building (including empty buildings)
+SELECT DISTINCT building_name, role 
+FROM buildings 
+LEFT JOIN employees
+ON building_name = building;
+
+--Find the name and role of all employees who have not been assigned to a building 
+SELECT name, role FROM employees
+WHERE building IS NULL;
+
+--Find the names of the buildings that hold no employees
+SELECT DISTINCT building_name
+FROM buildings 
+LEFT JOIN employees
+ON building_name = building
+WHERE role IS NULL;
+
+--List all movies and their combined sales in millions of dollars 
+SELECT title, (domestic_sales + international_sales) / 1000000 AS gross_sales_millions FROM movies
+INNER JOIN boxoffice ON movies.id = boxoffice.movie_id;
+
+--List all movies and their ratings in percent 
+SELECT title, rating * 10 AS rating_percent
+FROM movies
+INNER JOIN boxoffice
+ON movies.id = boxoffice.movie_id;
+
+--List all movies that were released on even number years
+SELECT title, year
+FROM movies
+WHERE year % 2 = 0;
+
+--Find the longest time that an employee has been at the studio
+SELECT Role, MAX(years_employed) as longest_years_employed
+FROM Employees;
+
+--For each role, find the average number of years employed by employees in that role
+SELECT Role, AVG(years_employed) as averrage_years_employed
+FROM Employees
+GROUP BY role;
+
+--Find the total number of employee years worked in each building
+SELECT building, SUM (years_employed) AS total
+from Employees
+GROUP BY building ;
+
+--Find the number of Artists in the studio (without a HAVING clause) 
+SELECT role, COUNT(*) as Number_of_artists
+FROM employees
+WHERE role = "Artist";
+
+--Find the number of Employees of each role in the studio 
+SELECT role, SUM(years_employed) AS total_years_employed
+from employees
+GROUP BY role
+HAVING role = 'Engineer'
+
+--Find the number of movies each director has directed 
+SELECT director, COUNT(id) as total_movies_directed
+FROM movies
+GROUP BY director;
+
+--Find the total domestic and international sales that can be attributed to each director
+SELECT director, SUM(domestic_sales + international_sales) as total_sales
+FROM movies
+INNER JOIN boxoffice
+ON movies.id = boxoffice.movie_id
+GROUP BY director;
+
+--Add a column named Aspect_ratio with a FLOAT data type to store the aspect-ratio each movie was released in.
+ALTER TABLE Movies
+ADD COLUMN Aspect_ratio FLOAT DEFAULT 1.78;
+
+--Add another column named Language with a TEXT data type to store the language that the movie was released in. Ensure that the default for this language is English
+ALTER TABLE Movies
+ADD COLUMN Language text DEFAULT English;
+
+--We've sadly reached the end of our lessons, lets clean up by removing the Movies table
+DROP TABLE movies
+
+--drop the BoxOffice table as well
+DROP TABLE BoxOffice;
