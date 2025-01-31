@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.repository.todo_repository import ToDoRepository
+from v1.repository.todo_repository import ToDoRepository
 
 
 class ToDoService:

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from app.orm.todo_orm import ToDo
-from app.schemas.todo_schema import ToDoPostPutInputSchema
+from v1.orm.todo_orm import ToDo
+from v1.schemas.todo_schema import ToDoPostPutInputSchema
 
 
 class ToDoRepository:

@@ -5,9 +5,9 @@ from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from starlette.responses import StreamingResponse
 
-from app.database.todo_db import SessionLocal
-from app.schemas.todo_schema import ToDoResponseSchema, ToDoPostPutInputSchema
-from app.services.todo_service import ToDoService
+from v1.database.todo_db import SessionLocal
+from v1.schemas.todo_schema import ToDoResponseSchema, ToDoPostPutInputSchema
+from v1.services.todo_service import ToDoService
 
 router = APIRouter()
 
