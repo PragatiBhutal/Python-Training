@@ -1,0 +1,9 @@
+alembic==1.14.1
+anyio==4.8.0
+fastapi==0.115.7
+SQLAlchemy==2.0.37
+uvicorn==0.34.0
+pydantic==2.10.6
+pydantic_core==2.27.2
+starlette==0.45.3
+psycopg2==2.9.10
