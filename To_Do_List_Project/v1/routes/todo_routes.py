@@ -1,7 +1,9 @@
 import csv
+from datetime import datetime, timedelta
 from io import StringIO
 
 from fastapi import APIRouter, HTTPException
+from plyer import notification
 from sqlalchemy.orm import Session
 from starlette.responses import StreamingResponse
 
@@ -17,21 +19,34 @@ db: Session = SessionLocal()
 @router.get("/view all", response_model=list[ToDoResponseSchema])
 def get_all_tasks():
     """
-    Retrieve all ToDo tasks.
+    Retrieve all tasks and send due date notifications.
     """
     service = ToDoService(db)
-    return service.get_all_tasks()
+    tasks = service.get_all_tasks()
+
+    service.send_due_date_notifications()
+
+    return tasks
 
 
 @router.get("/view", response_model=ToDoResponseSchema)
 def get_task_by_id(task_id: int):
     """
-    Retrieve a specific ToDo task by its ID.
+    Retrieve a specific task by its ID and send notification if there is an due tomorrow.
     """
     service = ToDoService(db)
     task = service.get_task_by_id(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
+
+    today = datetime.now().date()
+    if task.due_date.date() == today + timedelta(days=1):
+        notification.notify(
+            title=f"Task Due Soon: {task.title}",
+            message=f"Your task '{task.title}' is due tomorrow!",
+            timeout=5
+        )
+
     return task
 
 

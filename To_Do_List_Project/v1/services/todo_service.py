@@ -1,3 +1,6 @@
+import time
+from datetime import datetime, timedelta
+from plyer import notification
 from sqlalchemy.orm import Session
 from v1.repository.todo_repository import ToDoRepository
 
@@ -41,3 +44,18 @@ class ToDoService:
         Delete a specific ToDo task by its ID using the repository.
         """
         return self.repository.delete_task(task_id)
+
+    def send_due_date_notifications(self):
+        """
+        Check for tasks that are due tomorrow and send notifications.
+        """
+        tasks = self.repository.get_all_tasks()
+        today = datetime.now().date()
+        for task in tasks:
+            if task.due_date.date() == today + timedelta(days=1):
+                notification.notify(
+                    title=f"Task Due Soon: {task.title}",
+                    message=f"Your task '{task.title}' is due tomorrow!",
+                    timeout=5
+                )
+                time.sleep(5)
